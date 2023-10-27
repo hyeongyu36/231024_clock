@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>시계</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            background-color: antiquewhite;
+            display: block;
+            position: relative;
+            width: 50%;
+            height: 500px;
+        }
+        .clock{
+            width: 300px;
+            height: 300px;
+            background-color: rgb(214, 202, 186);
+            position: relative;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+        .niddle{
+            height: 280px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            /* transform: translate(-50%, -50%); */
+            margin-left: -14px;
+            margin-top: -140px;
+            transform: rotate(0deg);
+            filter: drop-shadow(2px 2px 5px #000);
+            transition: transform 0.2s;
+            z-index: 2;
+        }
+        .niddle>.top{
+            height: 50%;
+        }
+        .niddle:last-child{
+            filter: grayscale(1);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="clock">
+            <div class="niddle">
+                <div class="top">
+                    <img src="images/niddle.png" alt="시계바늘">
+                    <div class="bottom"></div>
+                </div>
+            </div>
+            <div class="niddle">
+                <div class="top">
+                    <img src="images/niddle.png" alt="시계바늘">
+                    <div class="bottom"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            var deg = 0;
+            var interval;
+            var rotationSpeed = 10; // 회전 속도를 높이려면 간격 값을 줄입니다.
+
+            function startClock() {
+                var totalRotation = 360; // 한 바퀴 회전
+                var rotationIncrement = 6; // 회전 간격
+                var steps = totalRotation / rotationIncrement;
+
+                interval = setInterval(function () {
+                    deg += rotationIncrement;
+                    $(".niddle:first-child").css("transform", "rotate(" + deg + "deg)");
+
+                    steps--;
+
+                    if (steps === 0) {
+                        clearInterval(interval); // 한 바퀴 회전 후 멈춤
+                        setTimeout(startClock, 3000); // 30초 후에 다시 시작
+                    }
+                }, rotationSpeed);
+            }
+
+            // 페이지 로드 시 시작
+            startClock();
+        });
+    </script>
+
+</body>
+</html>
